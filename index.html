@@ -25,8 +25,8 @@ h1{font-size:35px;line-height:1;margin:9px 0 0;letter-spacing:-.05em;font-weight
 .dayDate{align-self:center}.name{font-size:12px;font-weight:830;letter-spacing:.09em;text-transform:uppercase}.date{font-size:11px;color:#aaa69f;margin-top:6px}
 .iconbox{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .iconbox.easy{background:var(--greenbg);color:var(--green)}.iconbox.quality{background:var(--orangebg);color:var(--orange)}.iconbox.long{background:var(--purplebg);color:var(--purple)}.iconbox.rest{background:var(--greybg);color:var(--grey)}
-.runicon{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.resticon{font-size:25px;line-height:1}.longicon{font-size:26px;line-height:1;color:var(--purple)}
+.runicon{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.resticon{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.longicon{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .tangesMark{width:48px;height:44px;position:relative;display:flex;align-items:center;justify-content:center}.tangesHook{position:absolute;width:27px;height:34px;border:5px solid #111;border-top-color:transparent;border-right-color:transparent;border-radius:50%;transform:rotate(-28deg);top:4px;left:13px}.tangesHook:after{content:"";position:absolute;width:19px;height:5px;background:#111;border-radius:5px;transform:rotate(-24deg);top:-5px;left:13px}.tangesText{position:relative;z-index:2;font-size:10px;font-weight:950;font-style:italic;letter-spacing:-.08em;color:#f0d73b;text-shadow:0 0 .2px #a88f00;transform:translateY(1px)}
 .work{min-width:0}.km{font-size:17px;font-weight:800;letter-spacing:-.025em;line-height:1.05}.session{font-size:14px;font-weight:760;margin-top:3px;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.intensityPreview{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chev{font-size:23px;font-weight:350;color:#171717;line-height:1;transition:transform .2s ease}.day.open .chev{transform:rotate(90deg)}
@@ -130,10 +130,10 @@ const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), currentMonday=n
 const weekNo=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil((((t-y)/86400000)+1)/7)};
 const box=document.getElementById("days");
 function iconFor(p){
- if(p.rest)return '<div class="iconbox rest"><span class="resticon">▰</span></div>';
+ if(p.rest)return '<div class="iconbox rest"><svg class="resticon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 7v19M5 20h22v6M9 20V10h7c3 0 5 2 5 5v5M9 14h12"/></svg></div>';
  if(p.s==="TANGES")return '<div class="iconbox quality"><div class="tangesMark"><span class="tangesHook"></span><span class="tangesText">TANGES</span></div></div>';
- if(p.s==="Langtur")return '<div class="iconbox long"><span class="longicon">✤</span></div>';
- return '<div class="iconbox easy"><svg class="runicon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 20c4-1 6-5 8-10l4 4 5 1 4 5c1 2 0 5-3 5H11c-3 0-5-2-5-5Z"/><path d="M14 10l-2-3M19 15l3-3M9 20h17"/></svg></div>';
+ if(p.s==="Langtur")return '<div class="iconbox long"><svg class="longicon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6c3-4 8-2 8 2 0 3-3 5-8 8-5-3-8-5-8-8 0-4 5-6 8-2Z"/><path d="M16 26c-3 4-8 2-8-2 0-3 3-5 8-8 5 3 8 5 8 8 0 4-5 6-8 2Z"/></svg></div>';
+ return '<div class="iconbox easy"><svg class="runicon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 21c4 0 7-3 9-9l4 4 5 1 4 4c2 2 0 5-3 5H11c-4 0-6-2-6-5Z"/><path d="M14 12l-2-4M18 16l4-4M7 21h19M11 25h14"/></svg></div>';
 }
 function render(){
  const monday=new Date(currentMonday);monday.setDate(currentMonday.getDate()+weekOffset*7);
