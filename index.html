@@ -22,7 +22,7 @@ h1{font-size:32px;line-height:1.02;margin:9px 0 0;letter-spacing:-.045em;font-we
 .date{font-size:11px;color:#99948d;margin-top:5px}.name{font-size:12px;font-weight:780;letter-spacing:.09em;text-transform:uppercase}
 .session{font-size:18px;font-weight:730;letter-spacing:-.025em}.detail{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
 .rest .session{color:#9a9a96;font-weight:600}
-.day.hasinfo{cursor:pointer}.expand{grid-column:2;margin-top:-2px;max-height:0;overflow:hidden;opacity:0;transition:max-height .25s ease,opacity .2s ease,margin .2s ease}.day.open .expand{max-height:260px;opacity:1;margin-top:10px}.focus{font-size:13px;line-height:1.55;color:var(--muted);padding-top:11px;border-top:1px solid var(--line)}.focus strong{color:var(--text)}.moveRow{display:flex;align-items:center;gap:8px;margin-top:12px}.moveLabel{font-size:11px;color:#99948d}.moveSelect{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 9px;font:inherit;font-size:12px;color:var(--text)}
+.day.hasinfo{cursor:pointer}.expand{grid-column:2;margin-top:-2px;max-height:0;overflow:hidden;opacity:0;transition:max-height .25s ease,opacity .2s ease,margin .2s ease}.day.open .expand{max-height:260px;opacity:1;margin-top:10px}.focus{font-size:13px;line-height:1.55;color:var(--muted);padding-top:11px;border-top:1px solid var(--line)}.focus strong{color:var(--text)}.intensity{display:inline-flex;margin:0 0 11px;padding:6px 9px;border-radius:9px;background:rgba(24,22,18,.045);font-size:11px;font-weight:700;color:#5f5b55;letter-spacing:.01em}.moveRow{display:flex;align-items:center;gap:8px;margin-top:12px}.moveLabel{font-size:11px;color:#99948d}.moveSelect{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 9px;font:inherit;font-size:12px;color:var(--text)}
 .badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#171717;color:white;border-radius:99px;padding:4px 8px;margin-left:7px;vertical-align:2px}
 footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spacing:.02em}
 @media(max-width:430px){main{padding:30px 14px 48px}h1{font-size:29px}.day{grid-template-columns:72px 1fr;padding:16px}.day.today{padding:16px}.session{font-size:17px}}
@@ -36,12 +36,12 @@ footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spa
 </main>
 <script>
 const basePlan=[
- {d:1,s:"Easy",x:"8 km · Z2",km:8,focus:"Rolig aerob volumen. Hold indsatsen behagelig hele vejen og lad tempoet komme af sig selv. Målet er friske ben bagefter — ikke at gøre easy-dagen til en skjult tempotur."},
- {d:2,s:"TANGES",x:"14 km · 6 × 5 min",km:14,focus:"Ugens primære kvalitetspas. 3 km rolig opvarmning, 6 × 5 min omkring tærskel med 90 sek. rolig jog mellem hvert interval og ca. 2 km nedjog. Kontrolleret fra start; sidste interval må gerne være det stærkeste."},
+ {d:1,s:"Easy",x:"8 km · Z2",km:8,intensity:"Puls · Z2 / rolig indsats",focus:"Rolig aerob volumen. Hold indsatsen behagelig hele vejen og lad tempoet komme af sig selv. Målet er friske ben bagefter — ikke at gøre easy-dagen til en skjult tempotur."},
+ {d:2,s:"TANGES",x:"14 km · 6 × 5 min",km:14,intensity:"Pace · ca. 3:50–3:55/km på intervallerne",focus:"Ugens primære kvalitetspas. 3 km rolig opvarmning, 6 × 5 min omkring tærskel med 90 sek. rolig jog mellem hvert interval og ca. 2 km nedjog. Kontrolleret fra start; sidste interval må gerne være det stærkeste."},
  {d:3,s:"Hvile",x:"",rest:true,km:0},
- {d:4,s:"Easy + strides",x:"9 km · Z2 + 6 × 20 sek.",km:9,focus:"Let volumen med en lille smule fart i benene. Løb 8 km roligt og afslut med 6 × 20 sek. afslappede strides med god pause. Fokus er rytme og løbeøkonomi — ikke sprint."},
- {d:5,s:"Recovery",x:"6 km · Meget let",km:6,focus:"Ren restitution og ekstra volumen. Tempoet er ligegyldigt. Hvis benene er tunge efter Tanges og torsdag, skal dette være ugens langsomste tur."},
- {d:6,s:"Langtur",x:"16 km · Roligt",km:16,focus:"Byg løbespecifik udholdenhed uden at gøre langturen til et hårdt pas. Stabil, rolig indsats hele vejen. Du skal helst føle, at du kunne have fortsat nogle kilometer mere."},
+ {d:4,s:"Easy + strides",x:"9 km · Z2 + 6 × 20 sek.",km:9,intensity:"Puls · Z2 på den rolige del · Strides på følelse",focus:"Let volumen med en lille smule fart i benene. Løb 8 km roligt og afslut med 6 × 20 sek. afslappede strides med god pause. Fokus er rytme og løbeøkonomi — ikke sprint."},
+ {d:5,s:"Recovery",x:"6 km · Meget let",km:6,intensity:"Puls · Lav Z2 / meget let",focus:"Ren restitution og ekstra volumen. Tempoet er ligegyldigt. Hvis benene er tunge efter Tanges og torsdag, skal dette være ugens langsomste tur."},
+ {d:6,s:"Langtur",x:"16 km · Roligt",km:16,intensity:"Puls · Z2 / kontrolleret",focus:"Byg løbespecifik udholdenhed uden at gøre langturen til et hårdt pas. Stabil, rolig indsats hele vejen. Du skal helst føle, at du kunne have fortsat nogle kilometer mere."},
  {d:0,s:"Hvile",x:"",rest:true,km:0}
 ];
 const names=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
@@ -66,9 +66,9 @@ function render(){
   const hasInfo=!p.rest;
   const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"")+(hasInfo?" hasinfo":"");
   const summary=p.km!=null&&p.km>0?(p.km+" km"):(p.x||"");
-  const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");
+  const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");const intensity=p.intensity||"";
   const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+n+'</option>').join("");
-  el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(summary?'<div class="detail">'+summary+'</div>':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
+  el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(summary?'<div class="detail">'+summary+'</div>':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus">'+(intensity?'<div class="intensity">'+intensity+'</div><br>':'')+'<strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
   if(hasInfo){el.addEventListener("click",e=>{if(e.target.tagName!=="SELECT"&&e.target.tagName!=="OPTION")el.classList.toggle("open")});const sel=el.querySelector(".moveSelect");sel.addEventListener("change",e=>{e.stopPropagation();moveSession(monday,plan,i,Number(e.target.value))})}
   box.appendChild(el)
  })
