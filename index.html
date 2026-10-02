@@ -22,6 +22,7 @@ h1{font-size:32px;line-height:1.02;margin:9px 0 0;letter-spacing:-.045em;font-we
 .date{font-size:11px;color:#99948d;margin-top:5px}.name{font-size:12px;font-weight:780;letter-spacing:.09em;text-transform:uppercase}
 .session{font-size:18px;font-weight:730;letter-spacing:-.025em}.detail{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
 .rest .session{color:#9a9a96;font-weight:600}
+.day.hasinfo{cursor:pointer}.expand{grid-column:2;margin-top:-2px;max-height:0;overflow:hidden;opacity:0;transition:max-height .25s ease,opacity .2s ease,margin .2s ease}.day.open .expand{max-height:260px;opacity:1;margin-top:10px}.focus{font-size:13px;line-height:1.55;color:var(--muted);padding-top:11px;border-top:1px solid var(--line)}.focus strong{color:var(--text)}.moveRow{display:flex;align-items:center;gap:8px;margin-top:12px}.moveLabel{font-size:11px;color:#99948d}.moveSelect{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 9px;font:inherit;font-size:12px;color:var(--text)}
 .badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#171717;color:white;border-radius:99px;padding:4px 8px;margin-left:7px;vertical-align:2px}
 footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spacing:.02em}
 @media(max-width:430px){main{padding:30px 14px 48px}h1{font-size:29px}.day{grid-template-columns:72px 1fr;padding:16px}.day.today{padding:16px}.session{font-size:17px}}
@@ -34,7 +35,7 @@ footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spa
 <footer>Planen opdateres løbende.</footer>
 </main>
 <script>
-const plan=[
+const basePlan=[
  {d:1,s:"Easy",x:"Plan tilføjes senere",km:null},
  {d:2,s:"TANGES",x:"",km:null},
  {d:3,s:"Hvile",x:"",rest:true,km:0},
@@ -44,10 +45,37 @@ const plan=[
  {d:0,s:"Hvile",x:"",rest:true,km:0}
 ];
 const names=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
+const dayLabels=["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"];
+const weekKey=monday=>"mpl-"+monday.toISOString().slice(0,10);
+function getPlan(monday){try{const saved=localStorage.getItem(weekKey(monday));return saved?JSON.parse(saved):basePlan.map(p=>({...p}))}catch(e){return basePlan.map(p=>({...p}))}}
+function savePlan(monday,plan){try{localStorage.setItem(weekKey(monday),JSON.stringify(plan))}catch(e){}}
+function moveSession(monday,plan,from,to){if(from===to)return;const moving={...plan[from]};const target={...plan[to]};plan[to]=moving;plan[from]=target;savePlan(monday,plan);render()}
 const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), currentMonday=new Date(now); currentMonday.setHours(12,0,0,0); currentMonday.setDate(now.getDate()+diff); let weekOffset=0;
 const weekNo=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil((((t-y)/86400000)+1)/7)};
 const box=document.getElementById("days");
-function render(){const known=plan.filter(p=>p.km!==null);const complete=known.length===plan.length;const total=known.reduce((sum,p)=>sum+(p.km||0),0);document.getElementById("total").innerHTML=complete?"<strong>"+total.toLocaleString("da-DK",{maximumFractionDigits:1})+" km</strong> planlagt":"Km planlægges";const monday=new Date(currentMonday);monday.setDate(currentMonday.getDate()+weekOffset*7);document.getElementById("week").textContent="Uge "+weekNo(monday);document.getElementById("heading").textContent=weekOffset===0?"Denne uge":weekOffset===1?"Næste uge":weekOffset===-1?"Forrige uge":"Uge "+weekNo(monday);box.innerHTML="";plan.forEach((p,i)=>{const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"");el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(p.x?'<div class="detail">'+p.x+'</div>':'')+'</div>';box.appendChild(el)})}document.getElementById("prev").onclick=()=>{weekOffset--;render()};document.getElementById("next").onclick=()=>{weekOffset++;render()};render();
+function render(){
+ const monday=new Date(currentMonday);monday.setDate(currentMonday.getDate()+weekOffset*7);
+ const plan=getPlan(monday);
+ const known=plan.filter(p=>p.km!==null),complete=known.length===plan.length,total=known.reduce((sum,p)=>sum+(p.km||0),0);
+ document.getElementById("total").innerHTML=complete?"<strong>"+total.toLocaleString("da-DK",{maximumFractionDigits:1})+" km</strong> planlagt":"Km planlægges";
+ document.getElementById("week").textContent="Uge "+weekNo(monday);
+ document.getElementById("heading").textContent=weekOffset===0?"Denne uge":weekOffset===1?"Næste uge":weekOffset===-1?"Forrige uge":"Uge "+weekNo(monday);
+ box.innerHTML="";
+ plan.forEach((p,i)=>{
+  const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();
+  const hasInfo=!p.rest;
+  const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"")+(hasInfo?" hasinfo":"");
+  const summary=p.km!=null&&p.km>0?(p.km+" km"):(p.x||"");
+  const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");
+  const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+n+'</option>').join("");
+  el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(summary?'<div class="detail">'+summary+'</div>':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
+  if(hasInfo){el.addEventListener("click",e=>{if(e.target.tagName!=="SELECT"&&e.target.tagName!=="OPTION")el.classList.toggle("open")});const sel=el.querySelector(".moveSelect");sel.addEventListener("change",e=>{e.stopPropagation();moveSession(monday,plan,i,Number(e.target.value))})}
+  box.appendChild(el)
+ })
+}
+document.getElementById("prev").onclick=()=>{weekOffset--;render()};
+document.getElementById("next").onclick=()=>{weekOffset++;render()};
+render();
 </script>
 </body>
 </html>
