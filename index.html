@@ -68,7 +68,7 @@ function render(){
   const summary=p.km!=null&&p.km>0?(p.km+" km"):(p.x||"");
   const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");const intensity=p.intensity||"";
   const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+n+'</option>').join("");
-  el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(summary?'<div class="detail">'+summary+'</div>':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
+  el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(summary?'<div class="detail">'+summary+'</div>':'')+(intensity?'<div class="intensityPreview">'+intensity+'</div>':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
   if(hasInfo){el.addEventListener("click",e=>{if(e.target.tagName!=="SELECT"&&e.target.tagName!=="OPTION")el.classList.toggle("open")});const sel=el.querySelector(".moveSelect");sel.addEventListener("change",e=>{e.stopPropagation();moveSession(monday,plan,i,Number(e.target.value))})}
   box.appendChild(el)
  })
