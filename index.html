@@ -9,23 +9,33 @@
 <meta name="theme-color" content="#f7f7f5">
 <title>Mathias · Løbeplan</title>
 <style>
-:root{--bg:#f3f2ef;--card:rgba(255,255,255,.88);--text:#161616;--muted:#77736c;--line:rgba(30,28,24,.09);--accent:#171717;--shadow:0 10px 35px rgba(24,22,18,.045)}
-*{box-sizing:border-box} html,body{touch-action:manipulation} body{margin:0;background:radial-gradient(circle at 50% -120px,#fff 0,#f7f6f3 34%,var(--bg) 72%);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
-main{width:min(680px,100%);margin:auto;padding:42px 18px 64px}
-header{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px;padding:0 2px}
-.eyebrow{font-size:11px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:#8c877f}
-h1{font-size:32px;line-height:1.02;margin:9px 0 0;letter-spacing:-.045em;font-weight:760}
-.total{font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.01em}.total strong{color:var(--text);font-weight:750}.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:34px;height:34px;border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:11px;font-size:21px;line-height:1;color:var(--text);cursor:pointer;box-shadow:0 4px 15px rgba(24,22,18,.035);backdrop-filter:blur(8px);transition:transform .15s ease,background .15s ease}.weeknav button:hover{background:#fff}.weeknav .refresh{margin-right:3px;font-size:18px}.weeknav button:active{transform:scale(.96)}
-.days{display:grid;gap:11px}
-.day{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 19px;display:grid;grid-template-columns:82px 1fr;gap:14px;min-height:80px;box-shadow:var(--shadow);backdrop-filter:blur(10px);transition:transform .15s ease,box-shadow .15s ease}
-.day.today{border:1px solid rgba(20,20,20,.32);padding:18px 19px;box-shadow:0 12px 38px rgba(24,22,18,.08),inset 3px 0 0 #171717}
-.date{font-size:11px;color:#99948d;margin-top:5px}.name{font-size:12px;font-weight:780;letter-spacing:.09em;text-transform:uppercase}
-.session{font-size:18px;font-weight:730;letter-spacing:-.025em}.detail{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}.intensityPreview{font-size:11px;color:#918c84;margin-top:5px;line-height:1.4}
-.rest .session{color:#9a9a96;font-weight:600}
-.day.hasinfo{cursor:pointer}.expand{grid-column:2;margin-top:-2px;max-height:0;overflow:hidden;opacity:0;transition:max-height .25s ease,opacity .2s ease,margin .2s ease}.day.open .expand{max-height:260px;opacity:1;margin-top:10px}.focus{font-size:13px;line-height:1.55;color:var(--muted);padding-top:11px;border-top:1px solid var(--line)}.focus strong{color:var(--text)}.intensity{display:inline-flex;margin:0 0 11px;padding:6px 9px;border-radius:9px;background:rgba(24,22,18,.045);font-size:11px;font-weight:700;color:#5f5b55;letter-spacing:.01em}.moveRow{display:flex;align-items:center;gap:8px;margin-top:12px}.moveLabel{font-size:11px;color:#99948d}.moveSelect{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 9px;font:inherit;font-size:12px;color:var(--text)}
-.badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#171717;color:white;border-radius:99px;padding:4px 8px;margin-left:7px;vertical-align:2px}
-footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spacing:.02em}
-@media(max-width:430px){main{padding:30px 14px 48px}h1{font-size:29px}.day{grid-template-columns:72px 1fr;padding:16px}.day.today{padding:16px}.session{font-size:17px}}
+:root{--bg:#f5f4f1;--card:#fff;--text:#111;--muted:#99958f;--line:rgba(25,22,18,.075);--shadow:0 7px 22px rgba(30,25,18,.045);--green:#159b57;--greenbg:#edf8f0;--orange:#f29a32;--orangebg:#fff4e8;--purple:#7463df;--purplebg:#f2efff;--grey:#617889;--greybg:#f0f4f6}
+*{box-sizing:border-box}html,body{touch-action:manipulation}body{margin:0;background:linear-gradient(#fbfaf8,var(--bg));color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+main{width:min(680px,100%);margin:auto;padding:34px 18px 58px}
+header{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px;padding:0 3px}
+.eyebrow{font-size:11px;font-weight:780;letter-spacing:.17em;text-transform:uppercase;color:#8f8a82}
+h1{font-size:35px;line-height:1;margin:9px 0 0;letter-spacing:-.05em;font-weight:800}
+.total{font-size:13px;color:var(--muted);margin-top:9px}.total strong{color:var(--text);font-weight:800}
+.weeknav{display:flex;align-items:center;gap:8px;padding-bottom:1px}.week{font-size:13px;color:var(--muted);min-width:48px;text-align:center}
+.weeknav button{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:22px;line-height:1;color:var(--text);cursor:pointer;box-shadow:0 5px 16px rgba(24,22,18,.05);transition:transform .15s ease}.weeknav .refresh{font-size:19px;margin-right:2px}.weeknav button:active{transform:scale(.95)}
+.days{display:grid;gap:9px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 13px;display:grid;grid-template-columns:68px 54px minmax(0,1fr) 18px;gap:11px;align-items:center;min-height:78px;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
+.day.today{border-color:rgba(20,20,20,.25);box-shadow:0 8px 26px rgba(24,22,18,.075),inset 3px 0 0 #171717}
+.day.hasinfo{cursor:pointer}.day:active{transform:scale(.995)}
+.dayDate{align-self:center}.name{font-size:12px;font-weight:830;letter-spacing:.09em;text-transform:uppercase}.date{font-size:11px;color:#aaa69f;margin-top:6px}
+.iconbox{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.iconbox.easy{background:var(--greenbg);color:var(--green)}.iconbox.quality{background:var(--orangebg);color:var(--orange)}.iconbox.long{background:var(--purplebg);color:var(--purple)}.iconbox.rest{background:var(--greybg);color:var(--grey)}
+.runicon{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.resticon{font-size:25px;line-height:1}.longicon{font-size:26px;line-height:1;color:var(--purple)}
+.tangesMark{width:48px;height:44px;position:relative;display:flex;align-items:center;justify-content:center}.tangesHook{position:absolute;width:27px;height:34px;border:5px solid #111;border-top-color:transparent;border-right-color:transparent;border-radius:50%;transform:rotate(-28deg);top:4px;left:13px}.tangesHook:after{content:"";position:absolute;width:19px;height:5px;background:#111;border-radius:5px;transform:rotate(-24deg);top:-5px;left:13px}.tangesText{position:relative;z-index:2;font-size:10px;font-weight:950;font-style:italic;letter-spacing:-.08em;color:#f0d73b;text-shadow:0 0 .2px #a88f00;transform:translateY(1px)}
+.work{min-width:0}.km{font-size:17px;font-weight:800;letter-spacing:-.025em;line-height:1.05}.session{font-size:14px;font-weight:760;margin-top:3px;letter-spacing:-.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.intensityPreview{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chev{font-size:23px;font-weight:350;color:#171717;line-height:1;transition:transform .2s ease}.day.open .chev{transform:rotate(90deg)}
+.expand{grid-column:3/5;max-height:0;overflow:hidden;opacity:0;transition:max-height .25s ease,opacity .2s ease,margin .2s ease}.day.open .expand{max-height:250px;opacity:1;margin-top:2px}
+.focus{font-size:12px;line-height:1.55;color:#77736c;padding:11px 2px 2px;border-top:1px solid var(--line)}.focus strong{color:var(--text)}
+.moveRow{display:flex;align-items:center;gap:8px;margin-top:10px}.moveLabel{font-size:11px;color:#aaa69f}.moveSelect{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 9px;font:inherit;font-size:12px;color:var(--text)}
+.badge{display:inline-block;font-size:9px;letter-spacing:.06em;text-transform:uppercase;background:#171717;color:#fff;border-radius:99px;padding:3px 6px;margin-left:6px;vertical-align:2px}
+footer{font-size:11px;color:#aaa59e;margin-top:24px;text-align:center}
+@media(max-width:430px){main{padding:29px 13px 46px}h1{font-size:32px}header{margin-bottom:21px}.weeknav{gap:6px}.weeknav button{width:36px;height:36px}.week{min-width:43px}.day{grid-template-columns:62px 50px minmax(0,1fr) 15px;gap:9px;padding:11px 12px;min-height:74px;border-radius:15px}.iconbox{width:50px;height:50px;border-radius:12px}.km{font-size:16px}.session{font-size:13.5px}.intensityPreview{font-size:10.5px}}
 </style>
 </head>
 <body>
@@ -109,7 +119,7 @@ const plansByWeek={
    {d:0,s:"Hvile",x:"",rest:true,km:0}
   ]
 };
-const names=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
+const names=["SØN","MAN","TIR","ONS","TOR","FRE","LØR"];
 const dayLabels=["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"];
 const weekKey=monday=>"mpl-"+monday.toISOString().slice(0,10);
 function plannedWeek(monday){const w=weekNo(monday);const src=plansByWeek[w];return src?src.map(p=>({...p})):null}
@@ -119,22 +129,30 @@ function moveSession(monday,plan,from,to){if(from===to)return;const moving={...p
 const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), currentMonday=new Date(now); currentMonday.setHours(12,0,0,0); currentMonday.setDate(now.getDate()+diff); let weekOffset=0;
 const weekNo=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil((((t-y)/86400000)+1)/7)};
 const box=document.getElementById("days");
+function iconFor(p){
+ if(p.rest)return '<div class="iconbox rest"><span class="resticon">▰</span></div>';
+ if(p.s==="TANGES")return '<div class="iconbox quality"><div class="tangesMark"><span class="tangesHook"></span><span class="tangesText">TANGES</span></div></div>';
+ if(p.s==="Langtur")return '<div class="iconbox long"><span class="longicon">✤</span></div>';
+ return '<div class="iconbox easy"><svg class="runicon" viewBox="0 0 32 32" aria-hidden="true"><path d="M6 20c4-1 6-5 8-10l4 4 5 1 4 5c1 2 0 5-3 5H11c-3 0-5-2-5-5Z"/><path d="M14 10l-2-3M19 15l3-3M9 20h17"/></svg></div>';
+}
 function render(){
  const monday=new Date(currentMonday);monday.setDate(currentMonday.getDate()+weekOffset*7);
  const plan=getPlan(monday);
  const known=plan.filter(p=>p.km!==null),complete=known.length===plan.length,total=known.reduce((sum,p)=>sum+(p.km||0),0);
  document.getElementById("total").innerHTML=complete?"<strong>"+total.toLocaleString("da-DK",{maximumFractionDigits:1})+" km</strong> planlagt":"Km planlægges";
  document.getElementById("week").textContent="Uge "+weekNo(monday);
- document.getElementById("heading").textContent=weekOffset===0?"Denne uge":weekOffset===1?"Næste uge":weekOffset===-1?"Forrige uge":"Uge "+weekNo(monday);
+ document.getElementById("heading").textContent="Uge "+weekNo(monday);
  box.innerHTML="";
  plan.forEach((p,i)=>{
   const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();
   const hasInfo=!p.rest;
+  const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");
+  const intensity=p.intensity||"";
+  const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"][j]+'</option>').join("");
   const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"")+(hasInfo?" hasinfo":"");
-  const summary=p.km!=null&&p.km>0?(p.km+" km"):(p.x||"");
-  const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");const intensity=p.intensity||"";
-  const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+n+'</option>').join("");
-  el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(summary?'<div class="detail">'+summary+'</div>':'')+(intensity?'<div class="intensityPreview">'+intensity+'</div>':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
+  const km=p.km!=null&&p.km>0?p.km+" km":"";
+  const sub=p.rest?"Restitution":intensity;
+  el.innerHTML='<div class="dayDate"><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div>'+iconFor(p)+'<div class="work">'+(km?'<div class="km">'+km+'</div>':'')+'<div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(sub?'<div class="intensityPreview">'+sub+'</div>':'')+'</div><div class="chev">'+(hasInfo?'›':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
   if(hasInfo){el.addEventListener("click",e=>{if(e.target.tagName!=="SELECT"&&e.target.tagName!=="OPTION")el.classList.toggle("open")});const sel=el.querySelector(".moveSelect");sel.addEventListener("change",e=>{e.stopPropagation();moveSession(monday,plan,i,Number(e.target.value))})}
   box.appendChild(el)
  })
