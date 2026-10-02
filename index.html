@@ -35,19 +35,85 @@ footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spa
 <footer>Planen opdateres løbende.</footer>
 </main>
 <script>
-const basePlan=[
- {d:1,s:"Easy",x:"8 km · Z2",km:8,intensity:"Puls · Z2 / rolig indsats",focus:"Rolig aerob volumen. Hold indsatsen behagelig hele vejen og lad tempoet komme af sig selv. Målet er friske ben bagefter — ikke at gøre easy-dagen til en skjult tempotur."},
- {d:2,s:"TANGES",x:"14 km · 6 × 5 min",km:14,intensity:"Pace · ca. 3:50–3:55/km på intervallerne",focus:"Ugens primære kvalitetspas. 3 km rolig opvarmning, 6 × 5 min omkring tærskel med 90 sek. rolig jog mellem hvert interval og ca. 2 km nedjog. Kontrolleret fra start; sidste interval må gerne være det stærkeste."},
- {d:3,s:"Hvile",x:"",rest:true,km:0},
- {d:4,s:"Easy + strides",x:"9 km · Z2 + 6 × 20 sek.",km:9,intensity:"Puls · Z2 på den rolige del · Strides på følelse",focus:"Let volumen med en lille smule fart i benene. Løb 8 km roligt og afslut med 6 × 20 sek. afslappede strides med god pause. Fokus er rytme og løbeøkonomi — ikke sprint."},
- {d:5,s:"Recovery",x:"6 km · Meget let",km:6,intensity:"Puls · Lav Z2 / meget let",focus:"Ren restitution og ekstra volumen. Tempoet er ligegyldigt. Hvis benene er tunge efter Tanges og torsdag, skal dette være ugens langsomste tur."},
- {d:6,s:"Langtur",x:"16 km · Roligt",km:16,intensity:"Puls · Z2 / kontrolleret",focus:"Byg løbespecifik udholdenhed uden at gøre langturen til et hårdt pas. Stabil, rolig indsats hele vejen. Du skal helst føle, at du kunne have fortsat nogle kilometer mere."},
- {d:0,s:"Hvile",x:"",rest:true,km:0}
-];
+const plansByWeek={
+  41:[
+   {d:1,s:"Easy",x:"7 km",km:7,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig aerob volumen. Hold indsatsen behagelig hele vejen. Målet er at starte ugen med friske ben til Tanges tirsdag."},
+   {d:2,s:"TANGES",x:"Ca. 18 km samlet",km:18,intensity:"Ugens primære kvalitetspas",focus:"Tanges er ugens primære kvalitet. Det konkrete program og intensitetsstyringen opdateres, når tirsdagens pas er kendt."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"8 km · 4 × 20 sek.",km:8,intensity:"Z2 · RPE 2–3 · strides hurtigt men afslappet",focus:"Rolig aerob tur efterfulgt af 4 × 20 sek. strides med god pause. Fokus på rytme og løbeøkonomi — ikke sprint."},
+   {d:5,s:"Recovery",x:"5 km · Meget let",km:5,intensity:"RPE 1–2 · meget let",focus:"Ren restitution og ekstra volumen. Tempoet er underordnet. Turen skal efterlade benene bedre end før."},
+   {d:6,s:"Langtur",x:"12 km · Roligt",km:12,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig løbespecifik udholdenhed. Ingen progression eller fast finish. Du skal føle, at du kunne have fortsat."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  42:[
+   {d:1,s:"Easy",x:"8 km",km:8,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig aerob volumen. Kontrolleret hele vejen og ingen pacejagt."},
+   {d:2,s:"TANGES",x:"Ca. 18 km samlet",km:18,intensity:"Ugens primære kvalitetspas",focus:"Det konkrete Tanges-program opdateres, når det er kendt."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"9 km · 6 × 20 sek.",km:9,intensity:"Z2 · RPE 2–3 · strides på følelse",focus:"Aerob volumen med 6 afslappede strides til sidst. Hurtigt og teknisk pænt, aldrig sprint."},
+   {d:5,s:"Recovery",x:"5 km · Meget let",km:5,intensity:"RPE 1–2 · meget let",focus:"Kort restitutionsløb før langturen."},
+   {d:6,s:"Langtur",x:"14 km · Roligt",km:14,intensity:"Puls · Z2 · RPE 2–3",focus:"Første forlængelse af langturen. Stabil easy-indsats hele vejen."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  43:[
+   {d:1,s:"Easy",x:"8 km",km:8,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig aerob volumen og friskhed til tirsdag."},
+   {d:2,s:"TANGES",x:"Ca. 18 km samlet",km:18,intensity:"Ugens primære kvalitetspas",focus:"Det konkrete Tanges-program opdateres, når det er kendt."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy",x:"10 km",km:10,intensity:"Puls · Z2 · RPE 2–3",focus:"Blokkens første lidt større easy-tur. Formålet er billige aerobe kilometer uden ekstra intensitet."},
+   {d:5,s:"Recovery",x:"6 km · Meget let",km:6,intensity:"RPE 1–2 · meget let",focus:"Let løb og frekvens. Spar benene til lørdag."},
+   {d:6,s:"Langtur",x:"15 km · Roligt",km:15,intensity:"Puls · Z2 · RPE 2–3",focus:"Durability uden tempoarbejde. Stabil, rolig indsats fra første til sidste kilometer."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  44:[
+   {d:1,s:"Easy",x:"7 km",km:7,intensity:"Puls · Z2 · RPE 2–3",focus:"Lettere uge. Bevar rytmen, men sænk den samlede mekaniske belastning."},
+   {d:2,s:"TANGES",x:"Ca. 17 km samlet",km:17,intensity:"Ugens primære kvalitetspas",focus:"Tanges fortsætter som kvalitet, men resten af ugen er reduceret for at absorbere de første tre uger."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"8 km · 4 × 20 sek.",km:8,intensity:"Z2 · RPE 2–3 · strides afslappet",focus:"Rolig tur med få strides for at bevare lidt fart og rytme uden stor belastning."},
+   {d:5,s:"Recovery",x:"5 km · Meget let",km:5,intensity:"RPE 1–2 · meget let",focus:"Let restitution."},
+   {d:6,s:"Langtur",x:"12 km · Roligt",km:12,intensity:"Puls · Z2 · RPE 2–3",focus:"Reduceret langtur i absorptionsugen. Ingen grund til at skabe ekstra træthed."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  45:[
+   {d:1,s:"Easy",x:"8 km",km:8,intensity:"Puls · Z2 · RPE 2–3",focus:"Tilbage til normal volumen efter absorptionsugen."},
+   {d:2,s:"TANGES",x:"Ca. 18 km samlet",km:18,intensity:"Ugens primære kvalitetspas",focus:"Det konkrete Tanges-program opdateres, når det er kendt."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"10 km · 6 × 20 sek.",km:10,intensity:"Z2 · RPE 2–3 · strides på følelse",focus:"Solid aerob tur med afslappede strides. Målet er volumen plus neuromuskulær fart uden et ekstra hårdt pas."},
+   {d:5,s:"Recovery",x:"6 km · Meget let",km:6,intensity:"RPE 1–2 · meget let",focus:"Kort og meget roligt før langturen."},
+   {d:6,s:"Langtur",x:"15 km · Roligt",km:15,intensity:"Puls · Z2 · RPE 2–3",focus:"Nu skal 15 km begynde at føles som en normal, ukompliceret langtur."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  46:[
+   {d:1,s:"Easy",x:"8 km",km:8,intensity:"Puls · Z2 · RPE 2–3",focus:"Kontrolleret aerob volumen før Tanges."},
+   {d:2,s:"TANGES",x:"Ca. 18 km samlet",km:18,intensity:"Ugens primære kvalitetspas",focus:"Det konkrete Tanges-program opdateres, når det er kendt."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"10 km · 6 × 20 sek.",km:10,intensity:"Z2 · RPE 2–3 · strides afslappet",focus:"Aerob volumen og korte, kontrollerede strides."},
+   {d:5,s:"Recovery",x:"6 km · Meget let",km:6,intensity:"RPE 1–2 · meget let",focus:"Hold igen. Lørdag er ugens sekundære belastning."},
+   {d:6,s:"Langtur",x:"17 km · Roligt",km:17,intensity:"Puls · Z2 · RPE 2–3",focus:"Vigtig durability-tur. Hele turen easy; stimulussen er varigheden, ikke farten."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  47:[
+   {d:1,s:"Easy",x:"8 km",km:8,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig start på blokkens største planlagte uge."},
+   {d:2,s:"TANGES",x:"Ca. 18 km samlet",km:18,intensity:"Ugens primære kvalitetspas",focus:"Det konkrete Tanges-program opdateres, når det er kendt. Ingen ekstra kvalitet lægges oveni bare fordi volumen er høj."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"11 km · 6 × 20 sek.",km:11,intensity:"Z2 · RPE 2–3 · strides afslappet",focus:"Blokkens største easy-tur. Stadig let; volumen er stimulussen."},
+   {d:5,s:"Recovery",x:"6 km · Meget let",km:6,intensity:"RPE 1–2 · meget let",focus:"Meget let løb før blokkens længste langtur."},
+   {d:6,s:"Langtur",x:"18 km · Roligt",km:18,intensity:"Puls · Z2 · RPE 2–3",focus:"Blokkens længste langtur. Ingen fast finish eller progression. Målet er at absorbere en stor uge, ikke skabe en hero-session."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ],
+  48:[
+   {d:1,s:"Easy",x:"7 km",km:7,intensity:"Puls · Z2 · RPE 2–3",focus:"Absorptionsuge efter blokkens største belastning."},
+   {d:2,s:"TANGES",x:"Ca. 17 km samlet",km:17,intensity:"Ugens primære kvalitetspas",focus:"Tanges bevarer kvaliteten, mens den øvrige volumen reduceres."},
+   {d:3,s:"Hvile",x:"",rest:true,km:0},
+   {d:4,s:"Easy + strides",x:"9 km · 4 × 20 sek.",km:9,intensity:"Z2 · RPE 2–3 · strides afslappet",focus:"Rolig aerob tur med få strides for at holde rytmen."},
+   {d:5,s:"Recovery",x:"5 km · Meget let",km:5,intensity:"RPE 1–2 · meget let",focus:"Kort restitution."},
+   {d:6,s:"Langtur",x:"14 km · Roligt",km:14,intensity:"Puls · Z2 · RPE 2–3",focus:"Reduceret langtur. Målet er at afslutte blokken frisk nok til at bygge videre."},
+   {d:0,s:"Hvile",x:"",rest:true,km:0}
+  ]
+};
 const names=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
 const dayLabels=["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"];
 const weekKey=monday=>"mpl-"+monday.toISOString().slice(0,10);
-function getPlan(monday){try{const saved=localStorage.getItem(weekKey(monday));return saved?JSON.parse(saved):basePlan.map(p=>({...p}))}catch(e){return basePlan.map(p=>({...p}))}}
+function plannedWeek(monday){const w=weekNo(monday);const src=plansByWeek[w];return src?src.map(p=>({...p})):null}
+function getPlan(monday){try{const saved=localStorage.getItem(weekKey(monday));if(saved)return JSON.parse(saved);const planned=plannedWeek(monday);return planned||[{d:1,s:"Ikke planlagt",x:"",rest:true,km:null},{d:2,s:"Ikke planlagt",x:"",rest:true,km:null},{d:3,s:"Ikke planlagt",x:"",rest:true,km:null},{d:4,s:"Ikke planlagt",x:"",rest:true,km:null},{d:5,s:"Ikke planlagt",x:"",rest:true,km:null},{d:6,s:"Ikke planlagt",x:"",rest:true,km:null},{d:0,s:"Ikke planlagt",x:"",rest:true,km:null}]}catch(e){return plannedWeek(monday)||[]}}
 function savePlan(monday,plan){try{localStorage.setItem(weekKey(monday),JSON.stringify(plan))}catch(e){}}
 function moveSession(monday,plan,from,to){if(from===to)return;const moving={...plan[from]};const target={...plan[to]};plan[to]=moving;plan[from]=target;savePlan(monday,plan);render()}
 const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), currentMonday=new Date(now); currentMonday.setHours(12,0,0,0); currentMonday.setDate(now.getDate()+diff); let weekOffset=0;
