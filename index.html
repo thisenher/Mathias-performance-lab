@@ -12,7 +12,7 @@ main{width:min(680px,100%);margin:auto;padding:34px 18px 56px}
 header{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}
 .eyebrow{font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
 h1{font-size:30px;line-height:1.05;margin:7px 0 0;letter-spacing:-.04em}
-.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:31px;height:31px;border:1px solid var(--line);background:var(--card);border-radius:9px;font-size:22px;line-height:1;color:var(--text);cursor:pointer}.weeknav button:active{transform:scale(.96)}
+.total{font-size:13px;color:var(--muted);margin-top:8px}.total strong{color:var(--text);font-weight:750}.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:31px;height:31px;border:1px solid var(--line);background:var(--card);border-radius:9px;font-size:22px;line-height:1;color:var(--text);cursor:pointer}.weeknav button:active{transform:scale(.96)}
 .days{display:grid;gap:10px}
 .day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px 18px;display:grid;grid-template-columns:82px 1fr;gap:14px;min-height:78px}
 .day.today{border:2px solid var(--accent);padding:16px 17px}
@@ -26,25 +26,25 @@ footer{font-size:12px;color:#aaa;margin-top:22px;text-align:center}
 </head>
 <body>
 <main>
-<header><div><div class="eyebrow">Mathias · Løbeplan</div><h1 id="heading">Denne uge</h1></div><div class="weeknav"><button id="prev" aria-label="Forrige uge">‹</button><div class="week" id="week"></div><button id="next" aria-label="Næste uge">›</button></div></header>
+<header><div><div class="eyebrow">Mathias · Løbeplan</div><h1 id="heading">Denne uge</h1><div class="total" id="total"></div></div><div class="weeknav"><button id="prev" aria-label="Forrige uge">‹</button><div class="week" id="week"></div><button id="next" aria-label="Næste uge">›</button></div></header>
 <section class="days" id="days"></section>
 <footer>Planen opdateres løbende.</footer>
 </main>
 <script>
 const plan=[
- {d:1,s:"Easy",x:"Plan tilføjes senere"},
- {d:2,s:"TANGES",x:""},
- {d:3,s:"Hvile",x:"",rest:true},
- {d:4,s:"Easy",x:"Plan tilføjes senere"},
- {d:5,s:"Easy",x:"Plan tilføjes senere"},
- {d:6,s:"Langtur",x:"Plan tilføjes senere"},
- {d:0,s:"Hvile",x:"",rest:true}
+ {d:1,s:"Easy",x:"Plan tilføjes senere",km:null},
+ {d:2,s:"TANGES",x:"",km:null},
+ {d:3,s:"Hvile",x:"",rest:true,km:0},
+ {d:4,s:"Easy",x:"Plan tilføjes senere",km:null},
+ {d:5,s:"Easy",x:"Plan tilføjes senere",km:null},
+ {d:6,s:"Langtur",x:"Plan tilføjes senere",km:null},
+ {d:0,s:"Hvile",x:"",rest:true,km:0}
 ];
 const names=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
 const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), currentMonday=new Date(now); currentMonday.setHours(12,0,0,0); currentMonday.setDate(now.getDate()+diff); let weekOffset=0;
 const weekNo=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil((((t-y)/86400000)+1)/7)};
 const box=document.getElementById("days");
-function render(){const monday=new Date(currentMonday);monday.setDate(currentMonday.getDate()+weekOffset*7);document.getElementById("week").textContent="Uge "+weekNo(monday);document.getElementById("heading").textContent=weekOffset===0?"Denne uge":weekOffset===1?"Næste uge":weekOffset===-1?"Forrige uge":"Uge "+weekNo(monday);box.innerHTML="";plan.forEach((p,i)=>{const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"");el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(p.x?'<div class="detail">'+p.x+'</div>':'')+'</div>';box.appendChild(el)})}document.getElementById("prev").onclick=()=>{weekOffset--;render()};document.getElementById("next").onclick=()=>{weekOffset++;render()};render();
+function render(){const known=plan.filter(p=>p.km!==null);const complete=known.length===plan.length;const total=known.reduce((sum,p)=>sum+(p.km||0),0);document.getElementById("total").innerHTML=complete?"<strong>"+total.toLocaleString("da-DK",{maximumFractionDigits:1})+" km</strong> planlagt":"Km planlægges";const monday=new Date(currentMonday);monday.setDate(currentMonday.getDate()+weekOffset*7);document.getElementById("week").textContent="Uge "+weekNo(monday);document.getElementById("heading").textContent=weekOffset===0?"Denne uge":weekOffset===1?"Næste uge":weekOffset===-1?"Forrige uge":"Uge "+weekNo(monday);box.innerHTML="";plan.forEach((p,i)=>{const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"");el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(p.x?'<div class="detail">'+p.x+'</div>':'')+'</div>';box.appendChild(el)})}document.getElementById("prev").onclick=()=>{weekOffset--;render()};document.getElementById("next").onclick=()=>{weekOffset++;render()};render();
 </script>
 </body>
 </html>
