@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f7f7f5">
+<title>Mathias · Løbeplan</title>
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--text:#171717;--muted:#777;--line:#e8e8e4;--accent:#171717}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{width:min(680px,100%);margin:auto;padding:34px 18px 56px}
+header{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
+h1{font-size:30px;line-height:1.05;margin:7px 0 0;letter-spacing:-.04em}
+.week{font-size:13px;color:var(--muted);padding-bottom:3px}
+.days{display:grid;gap:10px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px 18px;display:grid;grid-template-columns:82px 1fr;gap:14px;min-height:78px}
+.day.today{border:2px solid var(--accent);padding:16px 17px}
+.date{font-size:12px;color:var(--muted);margin-top:3px}.name{font-size:14px;font-weight:750;letter-spacing:.04em;text-transform:uppercase}
+.session{font-size:18px;font-weight:750;letter-spacing:-.02em}.detail{font-size:14px;color:var(--muted);margin-top:5px;line-height:1.45}
+.rest .session{color:#9a9a96;font-weight:600}
+.badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#171717;color:white;border-radius:99px;padding:4px 7px;margin-left:7px;vertical-align:2px}
+footer{font-size:12px;color:#aaa;margin-top:22px;text-align:center}
+@media(max-width:430px){main{padding:26px 14px 44px}h1{font-size:27px}.day{grid-template-columns:72px 1fr;padding:15px}.day.today{padding:14px}.session{font-size:17px}}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="eyebrow">Mathias · Løbeplan</div><h1>Denne uge</h1></div><div class="week" id="week"></div></header>
+<section class="days" id="days"></section>
+<footer>Planen opdateres løbende.</footer>
+</main>
+<script>
+const plan=[
+ {d:1,s:"Easy",x:"Plan tilføjes senere"},
+ {d:2,s:"TANGES",x:""},
+ {d:3,s:"Hvile",x:"",rest:true},
+ {d:4,s:"Easy",x:"Plan tilføjes senere"},
+ {d:5,s:"Easy",x:"Plan tilføjes senere"},
+ {d:6,s:"Langtur",x:"Plan tilføjes senere"},
+ {d:0,s:"Hvile",x:"",rest:true}
+];
+const names=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
+const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), monday=new Date(now); monday.setDate(now.getDate()+diff);
+const weekNo=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));const y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil((((t-y)/86400000)+1)/7)};
+document.getElementById("week").textContent="Uge "+weekNo(now);
+const box=document.getElementById("days");
+plan.forEach((p,i)=>{const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"");el.innerHTML='<div><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div><div><div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(p.x?'<div class="detail">'+p.x+'</div>':'')+'</div>';box.appendChild(el)});
+</script>
+</body>
+</html>
