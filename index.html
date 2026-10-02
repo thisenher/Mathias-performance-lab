@@ -15,7 +15,7 @@ main{width:min(680px,100%);margin:auto;padding:42px 18px 64px}
 header{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px;padding:0 2px}
 .eyebrow{font-size:11px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:#8c877f}
 h1{font-size:32px;line-height:1.02;margin:9px 0 0;letter-spacing:-.045em;font-weight:760}
-.total{font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.01em}.total strong{color:var(--text);font-weight:750}.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:34px;height:34px;border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:11px;font-size:21px;line-height:1;color:var(--text);cursor:pointer;box-shadow:0 4px 15px rgba(24,22,18,.035);backdrop-filter:blur(8px);transition:transform .15s ease,background .15s ease}.weeknav button:hover{background:#fff}.weeknav button:active{transform:scale(.96)}
+.total{font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.01em}.total strong{color:var(--text);font-weight:750}.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:34px;height:34px;border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:11px;font-size:21px;line-height:1;color:var(--text);cursor:pointer;box-shadow:0 4px 15px rgba(24,22,18,.035);backdrop-filter:blur(8px);transition:transform .15s ease,background .15s ease}.weeknav button:hover{background:#fff}.weeknav .refresh{margin-right:3px;font-size:18px}.weeknav button:active{transform:scale(.96)}
 .days{display:grid;gap:11px}
 .day{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 19px;display:grid;grid-template-columns:82px 1fr;gap:14px;min-height:80px;box-shadow:var(--shadow);backdrop-filter:blur(10px);transition:transform .15s ease,box-shadow .15s ease}
 .day.today{border:1px solid rgba(20,20,20,.32);padding:18px 19px;box-shadow:0 12px 38px rgba(24,22,18,.08),inset 3px 0 0 #171717}
@@ -30,7 +30,7 @@ footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spa
 </head>
 <body>
 <main>
-<header><div><div class="eyebrow">Mathias · Løbeplan</div><h1 id="heading">Denne uge</h1><div class="total" id="total"></div></div><div class="weeknav"><button id="prev" aria-label="Forrige uge">‹</button><div class="week" id="week"></div><button id="next" aria-label="Næste uge">›</button></div></header>
+<header><div><div class="eyebrow">Mathias · Løbeplan</div><h1 id="heading">Denne uge</h1><div class="total" id="total"></div></div><div class="weeknav"><button id="refresh" class="refresh" aria-label="Opdater siden" title="Opdater">↻</button><button id="prev" aria-label="Forrige uge">‹</button><div class="week" id="week"></div><button id="next" aria-label="Næste uge">›</button></div></header>
 <section class="days" id="days"></section>
 <footer>Planen opdateres løbende.</footer>
 </main>
@@ -73,6 +73,7 @@ function render(){
   box.appendChild(el)
  })
 }
+document.getElementById("refresh").onclick=()=>{const u=new URL(window.location.href);u.searchParams.set("_",Date.now());window.location.replace(u.toString())};
 document.getElementById("prev").onclick=()=>{weekOffset--;render()};
 document.getElementById("next").onclick=()=>{weekOffset++;render()};
 render();
