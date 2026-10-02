@@ -6,22 +6,22 @@
 <meta name="theme-color" content="#f7f7f5">
 <title>Mathias · Løbeplan</title>
 <style>
-:root{--bg:#f7f7f5;--card:#fff;--text:#171717;--muted:#777;--line:#e8e8e4;--accent:#171717}
-*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{width:min(680px,100%);margin:auto;padding:34px 18px 56px}
-header{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}
-.eyebrow{font-size:12px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--muted)}
-h1{font-size:30px;line-height:1.05;margin:7px 0 0;letter-spacing:-.04em}
-.total{font-size:13px;color:var(--muted);margin-top:8px}.total strong{color:var(--text);font-weight:750}.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:31px;height:31px;border:1px solid var(--line);background:var(--card);border-radius:9px;font-size:22px;line-height:1;color:var(--text);cursor:pointer}.weeknav button:active{transform:scale(.96)}
-.days{display:grid;gap:10px}
-.day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px 18px;display:grid;grid-template-columns:82px 1fr;gap:14px;min-height:78px}
-.day.today{border:2px solid var(--accent);padding:16px 17px}
-.date{font-size:12px;color:var(--muted);margin-top:3px}.name{font-size:14px;font-weight:750;letter-spacing:.04em;text-transform:uppercase}
-.session{font-size:18px;font-weight:750;letter-spacing:-.02em}.detail{font-size:14px;color:var(--muted);margin-top:5px;line-height:1.45}
+:root{--bg:#f3f2ef;--card:rgba(255,255,255,.88);--text:#161616;--muted:#77736c;--line:rgba(30,28,24,.09);--accent:#171717;--shadow:0 10px 35px rgba(24,22,18,.045)}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 50% -120px,#fff 0,#f7f6f3 34%,var(--bg) 72%);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased}
+main{width:min(680px,100%);margin:auto;padding:42px 18px 64px}
+header{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px;padding:0 2px}
+.eyebrow{font-size:11px;font-weight:750;letter-spacing:.16em;text-transform:uppercase;color:#8c877f}
+h1{font-size:32px;line-height:1.02;margin:9px 0 0;letter-spacing:-.045em;font-weight:760}
+.total{font-size:12px;color:var(--muted);margin-top:10px;letter-spacing:.01em}.total strong{color:var(--text);font-weight:750}.week{font-size:13px;color:var(--muted);min-width:58px;text-align:center}.weeknav{display:flex;align-items:center;gap:7px;padding-bottom:1px}.weeknav button{width:34px;height:34px;border:1px solid var(--line);background:rgba(255,255,255,.7);border-radius:11px;font-size:21px;line-height:1;color:var(--text);cursor:pointer;box-shadow:0 4px 15px rgba(24,22,18,.035);backdrop-filter:blur(8px);transition:transform .15s ease,background .15s ease}.weeknav button:hover{background:#fff}.weeknav button:active{transform:scale(.96)}
+.days{display:grid;gap:11px}
+.day{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 19px;display:grid;grid-template-columns:82px 1fr;gap:14px;min-height:80px;box-shadow:var(--shadow);backdrop-filter:blur(10px);transition:transform .15s ease,box-shadow .15s ease}
+.day.today{border:1px solid rgba(20,20,20,.32);padding:18px 19px;box-shadow:0 12px 38px rgba(24,22,18,.08),inset 3px 0 0 #171717}
+.date{font-size:11px;color:#99948d;margin-top:5px}.name{font-size:12px;font-weight:780;letter-spacing:.09em;text-transform:uppercase}
+.session{font-size:18px;font-weight:730;letter-spacing:-.025em}.detail{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
 .rest .session{color:#9a9a96;font-weight:600}
-.badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#171717;color:white;border-radius:99px;padding:4px 7px;margin-left:7px;vertical-align:2px}
-footer{font-size:12px;color:#aaa;margin-top:22px;text-align:center}
-@media(max-width:430px){main{padding:26px 14px 44px}h1{font-size:27px}.day{grid-template-columns:72px 1fr;padding:15px}.day.today{padding:14px}.session{font-size:17px}}
+.badge{display:inline-block;font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:#171717;color:white;border-radius:99px;padding:4px 8px;margin-left:7px;vertical-align:2px}
+footer{font-size:11px;color:#aaa59e;margin-top:26px;text-align:center;letter-spacing:.02em}
+@media(max-width:430px){main{padding:30px 14px 48px}h1{font-size:29px}.day{grid-template-columns:72px 1fr;padding:16px}.day.today{padding:16px}.session{font-size:17px}}
 </style>
 </head>
 <body>
