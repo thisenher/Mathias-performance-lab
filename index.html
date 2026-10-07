@@ -20,7 +20,7 @@ h1{font-size:35px;line-height:1;margin:9px 0 0;letter-spacing:-.05em;font-weight
 .weeknav button{width:38px;height:38px;border:1px solid var(--line);background:#fff;border-radius:12px;font-size:22px;line-height:1;color:var(--text);cursor:pointer;box-shadow:0 5px 16px rgba(24,22,18,.05);transition:transform .15s ease}.weeknav .refresh{font-size:19px;margin-right:2px}.weeknav button:active{transform:scale(.95)}
 .days{display:grid;gap:9px}
 .day{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 13px;display:grid;grid-template-columns:68px 54px minmax(0,1fr) 18px;gap:11px;align-items:center;min-height:78px;box-shadow:var(--shadow);transition:transform .15s ease,box-shadow .15s ease}
-.day.today{border-color:rgba(20,20,20,.25);box-shadow:0 8px 26px rgba(24,22,18,.075),inset 3px 0 0 #171717}
+.day.today{border-color:rgba(20,20,20,.25);box-shadow:0 8px 26px rgba(24,22,18,.075),inset 3px 0 0 #171717}\n.day.past{background:#f1f8f3;border-color:rgba(21,155,87,.13);box-shadow:0 7px 22px rgba(21,155,87,.035)}
 .day.hasinfo{cursor:pointer}.day:active{transform:scale(.995)}
 .dayDate{align-self:center}.name{font-size:12px;font-weight:830;letter-spacing:.09em;text-transform:uppercase}.date{font-size:11px;color:#aaa69f;margin-top:6px}
 .iconbox{width:54px;height:54px;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
@@ -144,12 +144,12 @@ function render(){
  document.getElementById("heading").textContent="Uge "+weekNo(monday);
  box.innerHTML="";
  plan.forEach((p,i)=>{
-  const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();
+  const dt=new Date(monday);dt.setDate(monday.getDate()+i);const isToday=dt.toDateString()===now.toDateString();const isPast=dt<new Date(now.getFullYear(),now.getMonth(),now.getDate());
   const hasInfo=!p.rest;
   const focus=p.focus||(!p.rest?"Fokus og beskrivelse tilføjes, når den konkrete træning planlægges.":"");
   const intensity=p.intensity||"";
   const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"][j]+'</option>').join("");
-  const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(p.rest?" rest":"")+(hasInfo?" hasinfo":"");
+  const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(isPast?" past":"")+(p.rest?" rest":"")+(hasInfo?" hasinfo":"");
   const km=p.s==="TANGES"?"":(p.km!=null&&p.km>0?p.km+" km":"");
   const sub=p.rest?"Restitution":intensity;
   el.innerHTML='<div class="dayDate"><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div>'+iconFor(p)+'<div class="work">'+(km?'<div class="km">'+km+'</div>':'')+'<div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(sub?'<div class="intensityPreview">'+sub+'</div>':'')+'</div><div class="chev">'+(hasInfo?'›':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
