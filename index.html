@@ -55,8 +55,8 @@ const plansByWeek={
    {d:1,s:"Easy",x:"7 km",km:7,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig aerob volumen. Hold indsatsen behagelig hele vejen. Målet er at starte ugen med friske ben til Tanges tirsdag."},
    {d:2,s:"TANGES",x:"6 × 6 min tærskel · p. 90 sek.",km:18,intensity:"Tærskel · 90 sek. pause",focus:"6 × 6 min tærskel med 90 sek. pause. Start kontrolleret og lad farten finde sit niveau — målet er seks stabile reps, ikke at presse de første for hårdt. Ugens primære kvalitetspas."},
    {d:3,s:"Hvile",x:"",rest:true,km:0},
-   {d:4,s:"Easy + strides",x:"8 km · 4 × 20 sek.",km:8,intensity:"Z2 · RPE 2–3 · strides hurtigt men afslappet",focus:"Rolig aerob tur efterfulgt af 4 × 20 sek. strides med god pause. Fokus på rytme og løbeøkonomi — ikke sprint."},
-   {d:5,s:"Recovery",x:"5 km · Meget let",km:5,intensity:"RPE 1–2 · meget let",focus:"Ren restitution og ekstra volumen. Tempoet er underordnet. Turen skal efterlade benene bedre end før."},
+   {d:4,s:"Cykeltur",x:"60–90 min",km:0,intensity:"Rolig til moderat · 60–90 min",focus:"Cykling i rolig til moderat intensitet. Jævn, kontrolleret indsats uden hårde intervaller."},
+   {d:5,s:"Easy + strides",x:"8 km · 4 × 20 sek.",km:8,intensity:"Z2 · RPE 2–3 · 4 × 20 sek. strides",focus:"8 km roligt løb med 4 × 20 sek. afslappede strides og god pause. Fokus på rytme og løbeøkonomi — ikke sprint."},
    {d:6,s:"Langtur",x:"12 km · Roligt",km:12,intensity:"Puls · Z2 · RPE 2–3",focus:"Rolig løbespecifik udholdenhed. Ingen progression eller fast finish. Du skal føle, at du kunne have fortsat."},
    {d:0,s:"Hvile",x:"",rest:true,km:0}
   ],
@@ -128,7 +128,7 @@ const names=["SØN","MAN","TIR","ONS","TOR","FRE","LØR"];
 const dayLabels=["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"];
 const weekKey=monday=>"mpl-"+monday.toISOString().slice(0,10);
 function plannedWeek(monday){const w=weekNo(monday);const src=plansByWeek[w];return src?src.map(p=>({...p})):null}
-function getPlan(monday){try{const saved=localStorage.getItem(weekKey(monday));if(saved){const parsed=JSON.parse(saved);const planned=plannedWeek(monday);if(planned){return parsed.map((p,i)=>({...p,x:planned[i]?.x??p.x,intensity:planned[i]?.intensity??p.intensity,focus:planned[i]?.focus??p.focus,km:planned[i]?.km??p.km}))}return parsed}const planned=plannedWeek(monday);return planned||[{d:1,s:"Ikke planlagt",x:"",rest:true,km:null},{d:2,s:"Ikke planlagt",x:"",rest:true,km:null},{d:3,s:"Ikke planlagt",x:"",rest:true,km:null},{d:4,s:"Ikke planlagt",x:"",rest:true,km:null},{d:5,s:"Ikke planlagt",x:"",rest:true,km:null},{d:6,s:"Ikke planlagt",x:"",rest:true,km:null},{d:0,s:"Ikke planlagt",x:"",rest:true,km:null}]}catch(e){return plannedWeek(monday)||[]}}
+function getPlan(monday){try{const saved=localStorage.getItem(weekKey(monday));if(saved){const parsed=JSON.parse(saved);const planned=plannedWeek(monday);if(planned){if(weekNo(monday)===41)return planned;return parsed.map((p,i)=>({...p,x:planned[i]?.x??p.x,intensity:planned[i]?.intensity??p.intensity,focus:planned[i]?.focus??p.focus,km:planned[i]?.km??p.km}))}return parsed}const planned=plannedWeek(monday);return planned||[{d:1,s:"Ikke planlagt",x:"",rest:true,km:null},{d:2,s:"Ikke planlagt",x:"",rest:true,km:null},{d:3,s:"Ikke planlagt",x:"",rest:true,km:null},{d:4,s:"Ikke planlagt",x:"",rest:true,km:null},{d:5,s:"Ikke planlagt",x:"",rest:true,km:null},{d:6,s:"Ikke planlagt",x:"",rest:true,km:null},{d:0,s:"Ikke planlagt",x:"",rest:true,km:null}]}catch(e){return plannedWeek(monday)||[]}}
 function savePlan(monday,plan){try{localStorage.setItem(weekKey(monday),JSON.stringify(plan))}catch(e){}}
 function moveSession(monday,plan,from,to){if(from===to)return;const moving={...plan[from]};const target={...plan[to]};plan[to]=moving;plan[from]=target;savePlan(monday,plan);render()}
 const now=new Date(), day=now.getDay(), diff=(day===0?-6:1-day), currentMonday=new Date(now); currentMonday.setHours(12,0,0,0); currentMonday.setDate(now.getDate()+diff); let weekOffset=0;
@@ -136,6 +136,7 @@ const weekNo=d=>{const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDat
 const box=document.getElementById("days");
 function iconFor(p){
  if(p.rest)return '<div class="iconbox rest"><svg class="resticon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 7v19M5 20h22v6M9 20V10h7c3 0 5 2 5 5v5M9 14h12"/></svg></div>';
+ if(p.s==="Cykeltur")return '<div class="iconbox easy"><svg class="runicon" viewBox="0 0 32 32" aria-hidden="true"><circle cx="8" cy="23" r="6"/><circle cx="25" cy="23" r="6"/><path d="M8 23l7-13 10 13H8l6-10M12 7h6"/></svg></div>';
  if(p.s==="TANGES")return '<div class="iconbox quality"><div class="tangesMark"><span class="tangesHook"></span><span class="tangesText">TANGES</span></div></div>';
  if(p.s==="Langtur")return '<div class="iconbox long"><svg class="longicon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 6c3-4 8-2 8 2 0 3-3 5-8 8-5-3-8-5-8-8 0-4 5-6 8-2Z"/><path d="M16 26c-3 4-8 2-8-2 0-3 3-5 8-8 5 3 8 5 8 8 0 4-5 6-8 2Z"/></svg></div>';
  return '<div class="iconbox easy"><svg class="runicon" viewBox="0 0 32 32" aria-hidden="true"><path d="M5 21c4 0 7-3 9-9l4 4 5 1 4 4c2 2 0 5-3 5H11c-4 0-6-2-6-5Z"/><path d="M14 12l-2-4M18 16l4-4M7 21h19M11 25h14"/></svg></div>';
@@ -155,9 +156,9 @@ function render(){
   const intensity=p.intensity||"";
   const options=dayLabels.map((n,j)=>'<option value="'+j+'"'+(j===i?' selected':'')+'>'+["Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag","Søndag"][j]+'</option>').join("");
   const el=document.createElement("article");el.className="day"+(isToday?" today":"")+(isPast?" past":"")+(p.rest?" rest":"")+(hasInfo?" hasinfo":"");
-  const km=p.s==="TANGES"?"":(p.km!=null&&p.km>0?p.km+" km":"");
+  const km=(p.s==="TANGES"||p.s==="Cykeltur")?"":(p.km!=null&&p.km>0?p.km+" km":"");
   const sub=p.rest?"Restitution":intensity;
-  el.innerHTML='<div class="dayDate"><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div>'+iconFor(p)+'<div class="work">'+(km?'<div class="km">'+km+'</div>':'')+'<div class="session">'+p.s+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(sub?'<div class="intensityPreview">'+sub+'</div>':'')+'</div><div class="chev">'+(hasInfo?'›':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
+  el.innerHTML='<div class="dayDate"><div class="name">'+names[dt.getDay()]+'</div><div class="date">'+dt.toLocaleDateString("da-DK",{day:"numeric",month:"short"})+'</div></div>'+iconFor(p)+'<div class="work">'+(km?'<div class="km">'+km+'</div>':'')+'<div class="session">'+(p.s==="Cykeltur"?"60–90 min · Cykeltur":p.s)+(isToday?'<span class="badge">I dag</span>':'')+'</div>'+(sub?'<div class="intensityPreview">'+sub+'</div>':'')+'</div><div class="chev">'+(hasInfo?'›':'')+'</div>'+(hasInfo?'<div class="expand"><div class="focus"><strong>Fokus</strong><br>'+focus+'<div class="moveRow"><span class="moveLabel">Flyt til</span><select class="moveSelect">'+options+'</select></div></div></div>':'');
   if(hasInfo){el.addEventListener("click",e=>{if(e.target.tagName!=="SELECT"&&e.target.tagName!=="OPTION")el.classList.toggle("open")});const sel=el.querySelector(".moveSelect");sel.addEventListener("change",e=>{e.stopPropagation();moveSession(monday,plan,i,Number(e.target.value))})}
   box.appendChild(el)
  })
